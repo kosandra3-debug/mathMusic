@@ -1407,7 +1407,7 @@ function uploadFinRoutineBegin(snapshot) {
     // keep track of whether this Routine was forcibly ended
     routineForceEnded = false;
     uploadFinClock.reset(routineTimer.getTime());
-    routineTimer.add(1.000000);
+    routineTimer.add(5.000000);
     uploadFinMaxDurationReached = false;
     // update component parameters for each repeat
     // Disable downloading results to browser
@@ -1479,7 +1479,7 @@ function uploadFinRoutineEachFrame() {
     if (text_7.status === PsychoJS.Status.STARTED) {
     }
     
-    frameRemains = 0.0 + 1.0 - psychoJS.window.monitorFramePeriod * 0.75;// most of one frame period left
+    frameRemains = 0.0 + 5.0 - psychoJS.window.monitorFramePeriod * 0.75;// most of one frame period left
     if (text_7.status === PsychoJS.Status.STARTED && t >= frameRemains) {
       // keep track of stop time/frame for later
       text_7.tStop = t;  // not accounting for scr refresh
@@ -1530,7 +1530,7 @@ function uploadFinRoutineEnd(snapshot) {
         routineTimer.reset();} else if (uploadFinMaxDurationReached) {
         uploadFinClock.add(uploadFinMaxDuration);
     } else {
-        uploadFinClock.add(1.000000);
+        uploadFinClock.add(5.000000);
     }
     // Routines running outside a loop should always advance the datafile row
     if (currentLoop === psychoJS.experiment) {
