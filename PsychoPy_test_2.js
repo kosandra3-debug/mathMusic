@@ -324,7 +324,7 @@ async function experimentInit() {
    Accept: '*/*',
    },
    body: JSON.stringify({
-   experimentID: 'w4tfe', // * обновить, указав experiment ID из DATAPIPE на шаге 4.3 *
+   experimentID: 'w4tfe',
    filename: filename,
    data: data,
    }),
