@@ -1387,6 +1387,14 @@ async function quitPsychoJS(message, isCompleted) {
   if (psychoJS.experiment.isEntryEmpty()) {
     psychoJS.experiment.nextEntry();
   }
+  const save_data = {
+    type: jsPsychPipe,
+    action: "save",
+    experiment_id: "mULOjy3SCMkt",
+    filename: filename,
+    data_string: ()=>jsPsych.data.get().csv()
+  };
+
   psychoJS.window.close();
   psychoJS.quit({message: message, isCompleted: isCompleted});
   
