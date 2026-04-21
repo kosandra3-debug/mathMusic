@@ -71,9 +71,6 @@ flowScheduler.add(trialsLoopScheduler);
 flowScheduler.add(trialsLoopEnd);
 
 
-flowScheduler.add(uploadFinRoutineBegin());
-flowScheduler.add(uploadFinRoutineEachFrame());
-flowScheduler.add(uploadFinRoutineEnd());
 flowScheduler.add(quitPsychoJS, 'Thank you for your patience.', true);
 
 // quit if user presses Cancel in dialog box:
@@ -142,8 +139,6 @@ var textbox;
 var mouse;
 var text_2;
 var key_resp;
-var uploadFinClock;
-var text_7;
 var globalClock;
 var routineTimer;
 async function experimentInit() {
@@ -295,33 +290,6 @@ async function experimentInit() {
   
   key_resp = new core.Keyboard({psychoJS: psychoJS, clock: new util.Clock(), waitForStart: true});
   
-  // Initialize components for Routine "uploadFin"
-  uploadFinClock = new util.Clock();
-  text_7 = new visual.TextStim({
-    win: psychoJS.window,
-    name: 'text_7',
-    text: 'Подождите, идёт запись эксперимента',
-    font: 'Arial',
-    units: undefined, 
-    pos: [0, 0], draggable: false, height: 0.05,  wrapWidth: undefined, ori: 0.0,
-    languageStyle: 'LTR',
-    color: new util.Color('white'),  opacity: undefined,
-    depth: 0.0 
-  });
-  
-  fetch("https://pipe.jspsych.org/api/data/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "*/*",
-    },
-    body: JSON.stringify({
-      experimentID: "mULOjy3SCMkt",
-      filename: psychoJS.experiment.dataFileName + ".csv",
-      data: dataAsString,
-    }),
-  });
-
   // Create some handy timers
   globalClock = new util.Clock();  // to track the time since experiment started
   routineTimer = new util.CountdownTimer();  // to track time remaining of each (non-slip) routine
@@ -1397,122 +1365,6 @@ function trialRoutineEnd(snapshot) {
     // the Routine "trial" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset();
     
-    // Routines running outside a loop should always advance the datafile row
-    if (currentLoop === psychoJS.experiment) {
-      psychoJS.experiment.nextEntry(snapshot);
-    }
-    return Scheduler.Event.NEXT;
-  }
-}
-
-
-var uploadFinMaxDurationReached;
-var uploadFinMaxDuration;
-var uploadFinComponents;
-function uploadFinRoutineBegin(snapshot) {
-  return async function () {
-    TrialHandler.fromSnapshot(snapshot); // ensure that .thisN vals are up to date
-    
-    //--- Prepare to start Routine 'uploadFin' ---
-    t = 0;
-    frameN = -1;
-    continueRoutine = true; // until we're told otherwise
-    // keep track of whether this Routine was forcibly ended
-    routineForceEnded = false;
-    uploadFinClock.reset(routineTimer.getTime());
-    routineTimer.add(1.000000);
-    uploadFinMaxDurationReached = false;
-    // update component parameters for each repeat
-    psychoJS.experiment.addData('uploadFin.started', globalClock.getTime());
-    uploadFinMaxDuration = null
-    // keep track of which components have finished
-    uploadFinComponents = [];
-    uploadFinComponents.push(text_7);
-    
-    for (const thisComponent of uploadFinComponents)
-      if ('status' in thisComponent)
-        thisComponent.status = PsychoJS.Status.NOT_STARTED;
-    return Scheduler.Event.NEXT;
-  }
-}
-
-
-var frameRemains;
-function uploadFinRoutineEachFrame() {
-  return async function () {
-    //--- Loop for each frame of Routine 'uploadFin' ---
-    // get current time
-    t = uploadFinClock.getTime();
-    frameN = frameN + 1;// number of completed frames (so 0 is the first frame)
-    // update/draw components on each frame
-    
-    // *text_7* updates
-    if (t >= 0.0 && text_7.status === PsychoJS.Status.NOT_STARTED) {
-      // keep track of start time/frame for later
-      text_7.tStart = t;  // (not accounting for frame time here)
-      text_7.frameNStart = frameN;  // exact frame index
-      
-      text_7.setAutoDraw(true);
-    }
-    
-    
-    // if text_7 is active this frame...
-    if (text_7.status === PsychoJS.Status.STARTED) {
-    }
-    
-    frameRemains = 0.0 + 1.0 - psychoJS.window.monitorFramePeriod * 0.75;// most of one frame period left
-    if (text_7.status === PsychoJS.Status.STARTED && t >= frameRemains) {
-      // keep track of stop time/frame for later
-      text_7.tStop = t;  // not accounting for scr refresh
-      text_7.frameNStop = frameN;  // exact frame index
-      // update status
-      text_7.status = PsychoJS.Status.FINISHED;
-      text_7.setAutoDraw(false);
-    }
-    
-    // check for quit (typically the Esc key)
-    if (psychoJS.experiment.experimentEnded || psychoJS.eventManager.getKeys({keyList:['escape']}).length > 0) {
-      return quitPsychoJS('The [Escape] key was pressed. Goodbye!', false);
-    }
-    
-    // check if the Routine should terminate
-    if (!continueRoutine) {  // a component has requested a forced-end of Routine
-      routineForceEnded = true;
-      return Scheduler.Event.NEXT;
-    }
-    
-    continueRoutine = false;  // reverts to True if at least one component still running
-    for (const thisComponent of uploadFinComponents)
-      if ('status' in thisComponent && thisComponent.status !== PsychoJS.Status.FINISHED) {
-        continueRoutine = true;
-        break;
-      }
-    
-    // refresh the screen if continuing
-    if (continueRoutine && routineTimer.getTime() > 0) {
-      return Scheduler.Event.FLIP_REPEAT;
-    } else {
-      return Scheduler.Event.NEXT;
-    }
-  };
-}
-
-
-function uploadFinRoutineEnd(snapshot) {
-  return async function () {
-    //--- Ending Routine 'uploadFin' ---
-    for (const thisComponent of uploadFinComponents) {
-      if (typeof thisComponent.setAutoDraw === 'function') {
-        thisComponent.setAutoDraw(false);
-      }
-    }
-    psychoJS.experiment.addData('uploadFin.stopped', globalClock.getTime());
-    if (routineForceEnded) {
-        routineTimer.reset();} else if (uploadFinMaxDurationReached) {
-        uploadFinClock.add(uploadFinMaxDuration);
-    } else {
-        uploadFinClock.add(1.000000);
-    }
     // Routines running outside a loop should always advance the datafile row
     if (currentLoop === psychoJS.experiment) {
       psychoJS.experiment.nextEntry(snapshot);
