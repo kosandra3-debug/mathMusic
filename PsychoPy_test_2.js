@@ -309,19 +309,18 @@ async function experimentInit() {
     depth: 0.0 
   });
   
-  <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe"></script>
-
-  const subject_id = jsPsych.randomization.randomID(10);
-  const filename = `${subject_id}.csv`;
-
-  const save_data = {
-    type: jsPsychPipe,
-    action: "save",
-    experiment_id: "mULOjy3SCMkt",
-    filename: filename,
-    data_string: ()=>jsPsych.data.get().csv()
-  };
-
+  fetch("https://pipe.jspsych.org/api/data/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "*/*",
+    },
+    body: JSON.stringify({
+      experimentID: "mULOjy3SCMkt",
+      filename: psychoJS.experiment.dataFileName + ".csv",
+      data: dataAsString,
+    }),
+  });
 
   // Create some handy timers
   globalClock = new util.Clock();  // to track the time since experiment started
